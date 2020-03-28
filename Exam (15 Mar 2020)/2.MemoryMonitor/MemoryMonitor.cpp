@@ -7,6 +7,13 @@ MemoryMonitor::MemoryMonitor()
 
 MemoryMonitor::~MemoryMonitor()
 {
+        if (this->_nodes.size() > 0)
+	{
+		for (size_t i = 0; i < this->_nodes.size(); i++)
+		{
+			delete[] this->_nodes[i].data;
+		}
+	}
 }
 
 void MemoryMonitor::pushNode(const int nodeSize)
