@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-char* serializeStrings(std::vector<std::string> lines, int &serializedSize)
+char* serializeStrings(const std::vector<std::string>& lines, int &serializedSize)
 {
 	serializedSize = lines.size();
 	for (size_t i = 0; i < lines.size(); i++)
