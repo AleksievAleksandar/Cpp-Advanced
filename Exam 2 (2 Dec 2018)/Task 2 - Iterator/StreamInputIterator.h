@@ -1,31 +1,59 @@
-#pragma once
+#ifndef STREAM_INPUT_ITERATOR_H
+#define STREAM_INPUT_ITERATOR_H
 
-#include <iostream>
+#include <istream>
+#include <sstream>
 #include <string>
 #include <vector>
 
 class StreamInputIterator
 {
+	std::istream& in;
+	std::string endString;
+	static int number;
 public:
-	StreamInputIterator(std::istream& in);
-	StreamInputIterator(std::istream& in, std::string endString);
+	StreamInputIterator(std::istream& in, const std::string& endString) :
+		in(in), endString(endString) {}
+public:
+	static StreamInputIterator begin(std::istream& in)
+	{
+		return StreamInputIterator(in, std::string(""));
+	}
 
-	static StreamInputIterator begin(std::istream& in);
-	static StreamInputIterator end(std::istream& in, std::string endString);
+	static StreamInputIterator end(std::istream& in, const std::string& endString)
+	{
+		return StreamInputIterator(in, endString);
+	}
 
-	StreamInputIterator& operator ++();
-	bool operator !=(StreamInputIterator& other);
-	bool operator ==(StreamInputIterator& other);
-	int operator*();
+	bool operator!=(const StreamInputIterator& other) const
+	{
+		return &(this->in) != &(other.in) || this->endString != other.endString;
+	}
 
-private:
-	int* current;
-	int* next;
-	int num;
-	int sizeTemp;
-	int cnt;
-	bool hasNumber;
-	bool transfer;
-	bool getNext = false;
-	std::vector<int> numbers;
+	StreamInputIterator& operator++()
+	{		
+		std::string current;
+		this->in >> current;
+		std::istringstream iss(current);
+
+		if (iss >> StreamInputIterator::number)
+		{
+			return *this;
+		}
+		else
+		{
+			this->endString = current;
+			StreamInputIterator::number = 0;
+			return *this;
+		}	
+	}
+
+	int operator*() const
+	{
+		return StreamInputIterator::number;
+	}
 };
+
+int StreamInputIterator::number = 0;
+
+#endif // !STREAM_INPUT_ITERATOR_H
