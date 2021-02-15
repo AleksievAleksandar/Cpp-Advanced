@@ -10,7 +10,7 @@ MemoryPool::MemoryPool(const int memoryPoolSize) :
 MemoryPool::~MemoryPool()
 {
 	delete[] this->_memoryBuffer;
-	delete this->_isMemoryBufferOccupied;
+	delete[] this->_isMemoryBufferOccupied;
 }
 
 ErrorCode MemoryPool::requestMemory(MemoryNode& outNode)
