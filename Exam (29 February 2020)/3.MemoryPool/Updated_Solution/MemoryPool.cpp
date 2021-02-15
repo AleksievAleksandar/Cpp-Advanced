@@ -22,7 +22,7 @@ ErrorCode MemoryPool::requestMemory(MemoryNode& outNode)
 		return ErrorCode::REQUEST_FAILURE_BIGGER_THAN_BUFFER;
 	}
 
-	size_t haveEnoughFreeSpace = 0;
+	size_t freeSpace = 0;
 	size_t startIndexForNode = 0;
 	bool findStartIndex = false;
 
@@ -30,25 +30,25 @@ ErrorCode MemoryPool::requestMemory(MemoryNode& outNode)
 	{
 		if (!this->_isMemoryBufferOccupied[i])
 		{
-			haveEnoughFreeSpace++;
+			freeSpace++;
 			if (!findStartIndex)
 			{
 				startIndexForNode = i;
 				findStartIndex = true;
 			}
 
-			if (haveEnoughFreeSpace == outNode.size)
+			if (freeSpace == outNode.size)
 			{
 				break;
 			}
 		}
-		else if (this->_isMemoryBufferOccupied[i] && haveEnoughFreeSpace < outNode.size)
+		else if (this->_isMemoryBufferOccupied[i] && freeSpace < outNode.size)
 		{
-			haveEnoughFreeSpace = 0;
+			freeSpace = 0;
 			findStartIndex = false;
 		}
 	}
-	if (haveEnoughFreeSpace < outNode.size)
+	if (freeSpace < outNode.size)
 	{
 		return ErrorCode::REQUEST_FAILURE_NOT_ENOUGH_MEMORY;
 	}
