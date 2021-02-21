@@ -82,8 +82,9 @@ StatusCode Snake::move(const Direction dir, const std::vector<Point>& obstacles,
 		break;
 	}
 
-	if (hitObstacles(this->_currPos, obstacles) || eatMySelf(this->_currPos, this->getSnakeNodes()) || 
-		outOfBounds(this->_currPos, Point(this->_FIELD_COLS, this->_FIELD_ROWS)))
+	if (hitObstacles(this->_currPos, obstacles) || 
+	    eatMySelf(this->_currPos, this->getSnakeNodes()) || 
+	    outOfBounds(this->_currPos, Point(this->_FIELD_COLS, this->_FIELD_ROWS)))
 	{
 		return StatusCode::SNAKE_DEAD;
 	}
