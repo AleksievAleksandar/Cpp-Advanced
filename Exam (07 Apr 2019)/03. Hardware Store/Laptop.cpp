@@ -28,7 +28,7 @@ Laptop& Laptop::operator=(const Laptop& other)
 	if (this != &other)
 	{
 		this->_monitorSize = other._monitorSize;
-		Hardware::operator=(Hardware(other));
+		Hardware::operator = other;
 		std::cout << "Copy assignment for ";
 		this->printInfo();
 		std::cout << "\n";
